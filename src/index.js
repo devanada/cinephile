@@ -1,12 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./styles/index.css";
-import Functional from "./pages/Functional";
-import Class from "./pages/Class";
+import Homepage from "./pages/Homepage";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Class />
+    <Homepage />
   </React.StrictMode>,
   document.getElementById("root")
 );

@@ -1,0 +1,10 @@
+.layout-container {
+  background-color: black;
+  width: 100%;
+  display: flex;
+  /* overflow: auto; */
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 5rem;
+}

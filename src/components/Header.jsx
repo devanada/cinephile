@@ -1,35 +1,17 @@
 import React, { Component } from "react";
 import logo from "../assets/logo.svg";
+import "../styles/Header.css";
 
-export class Header extends Component {
-  constructor(props) {
-    super();
-  }
-
+export default class Header extends Component {
   render() {
     return (
-      <>
-        <img src={logo} className="App-logo" alt="logo" />
-        <p
-          style={{
-            fontSize: 30,
-            color: this.props.component === "Class" ? "yellow" : "teal",
-          }}
-        >
-          Edit <code>src/App.js</code> and {this.props.label}.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <p>{JSON.stringify(this.props.data, null, 1)}</p>
-      </>
+      <div className="header-container fixed top-0 left-0 right-0">
+        <h1 className="text-white text-2xl font-bold">Hell's Kitchen</h1>
+        <img src={logo} className="header-logo" alt="logo" />
+        <div>
+          <p className="text-white">My Favorite Movies</p>
+        </div>
+      </div>
     );
   }
 }
-
-export default Header;
