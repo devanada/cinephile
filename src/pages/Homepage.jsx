@@ -1,7 +1,7 @@
 import { Component } from "react";
 import axios from "axios";
 import { Layout } from "../components/Layout";
-import Header from "../components/Header";
+import { MovieCard, MovieLoading } from "../components/MovieCard";
 import "../styles/App.css";
 
 export default class Homepage extends Component {
@@ -9,6 +9,7 @@ export default class Homepage extends Component {
     super();
     this.state = {
       data: [],
+      skeleton: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
       isReady: false,
       page: 1,
     };
@@ -24,7 +25,10 @@ export default class Homepage extends Component {
         `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=${this.state.page}`
       )
       .then((response) => {
-        this.setState({ data: response.data.results, isReady: true });
+        this.setState({
+          data: response.data.results,
+          isReady: true,
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -58,42 +62,21 @@ export default class Homepage extends Component {
   }
 
   render() {
-    if (this.state.isReady) {
-      return (
-        <div className="main-con">
-          <Header />
-          <Layout>
-            <h1 className="text-white text-5xl">Now Playing</h1>
-            <div className="grid grid-flow-row-dense grid-cols-4 grid-rows-4">
-              {this.state.data.map((item) => {
-                return (
-                  <div key={item.id} className="grow m-5">
-                    <img
-                      src={`https://image.tmdb.org/t/p/w500${item.poster_path}`}
-                      alt={item.poster_path}
-                    />
-                    <p className="text-center text-white font-bold text-xl">
-                      {item.title}
-                    </p>
-                    <button
-                      className="bg-indigo-500 rounded-none"
-                      onClick={() => this.addFavorite(item)}
-                    >
-                      Favorite
-                    </button>
-                  </div>
-                );
+    return (
+      <Layout>
+        <h1 className="text-slate-900 dark:text-white text-5xl text-center">
+          Now Playing
+        </h1>
+        <div className="grid grid-flow-row auto-rows-max grid-cols-2 sm:grid-cols-5 m-2">
+          {this.state.isReady
+            ? this.state.data.map((item) => {
+                return <MovieCard item={item} />;
+              })
+            : this.state.skeleton.map((item) => {
+                return <MovieLoading item={item} />;
               })}
-            </div>
-          </Layout>
         </div>
-      );
-    } else {
-      return (
-        <div className="container">
-          <p>LAGI LOADING</p>
-        </div>
-      );
-    }
+      </Layout>
+    );
   }
 }

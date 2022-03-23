@@ -9,11 +9,6 @@
   }
 }
 
-.main-con {
-  background-color: #000;
-  height: 100vh;
-}
-
 .App-link {
   color: #61dafb;
 }
@@ -25,12 +20,6 @@
   to {
     transform: rotate(360deg);
   }
-}
-
-.now-playing {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
 }
 
 .card-movie {
