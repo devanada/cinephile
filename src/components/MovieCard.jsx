@@ -1,55 +1,52 @@
-import React, { Component } from "react";
+import React from "react";
+import { Link } from "react-router-dom";
 
-class MovieCard extends Component {
-  render() {
-    return (
-      <div
-        key={this.props.item.id}
-        className="grow m-2 p-3 flex flex-col justify-between"
-      >
+const MovieCard = (props) => {
+  return (
+    <div
+      key={props.item.id}
+      className="container grow m-2 p-3 flex flex-col justify-between"
+    >
+      <Link to={props.navigate}>
         <img
-          src={`https://image.tmdb.org/t/p/w500${this.props.item.poster_path}`}
-          alt={this.props.item.poster_path}
+          src={
+            props.item.poster_path
+              ? `https://image.tmdb.org/t/p/w500${props.item.poster_path}`
+              : "https://via.placeholder.com/500x750?text=No+Image"
+          }
+          alt={props.item.poster_path}
         />
-        <p className="text-center text-slate-900 dark:text-white font-bold text-xl">
-          {this.props.item.title}
-        </p>
-        <button
-          className="bg-sky-400 rounded font-bold"
-          onClick={() => this.addFavorite(this.props.item)}
+        <p
+          className="text-center text-slate-900 dark:text-white font-bold text-xl mb-2"
+          onClick={props.onClick}
         >
-          Add to Favorite
-        </button>
-      </div>
-    );
-  }
-}
+          {props.item.title}
+        </p>
+      </Link>
+      <button className="bg-neutral-500 rounded text-white">
+        Add to Favorite
+      </button>
+    </div>
+  );
+};
 
-class MovieLoading extends Component {
-  constructor(props) {
-    super();
-    this.state = {
-      data: [1, 2, 3, 4, 5],
-    };
-  }
-  render() {
-    return (
-      <div
-        key={this.props.item}
-        className="grow m-2 p-3 flex flex-col justify-between"
-      >
-        <div class="animate-pulse flex space-x-4">
-          <div class="flex-1 space-y-5 py-1">
-            <div class="h-52 bg-slate-700 rounded" />
-            <div class="space-y-2">
-              <div class="h-6 bg-slate-700 rounded" />
-              <div class="h-6 bg-slate-700 rounded" />
-            </div>
+const MovieLoading = (props) => {
+  return (
+    <div
+      key={props.item}
+      className="grow m-2 p-3 flex flex-col justify-between"
+    >
+      <div className="animate-pulse flex space-x-4">
+        <div className="flex-1 space-y-5 py-1">
+          <div className="h-52 bg-slate-700 rounded" />
+          <div className="space-y-2">
+            <div className="h-6 bg-slate-700 rounded" />
+            <div className="h-6 bg-slate-700 rounded" />
           </div>
         </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export { MovieCard, MovieLoading };

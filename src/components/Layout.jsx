@@ -1,21 +1,24 @@
-import React, { Component } from "react";
+import React from "react";
+import { Outlet } from "react-router-dom";
 import Header from "../components/Header";
 import "../styles/Layout.css";
 
-class Layout extends Component {
-  constructor(props) {
-    super();
-  }
+const Layout = (props) => {
+  return (
+    <div className="layout-container bg-white dark:bg-black">
+      <Header />
+      {props.children}
+    </div>
+  );
+};
 
-  render() {
-    return (
-      <div className="layout-container bg-white dark:bg-black">
-        {/* <div className="layout-container"> */}
-        <Header />
-        {this.props.children}
-      </div>
-    );
-  }
-}
+const Layout2 = (props) => {
+  return (
+    <div className="layout-container bg-white dark:bg-black">
+      <Header />
+      <Outlet />
+    </div>
+  );
+};
 
-export { Layout };
+export { Layout, Layout2 };

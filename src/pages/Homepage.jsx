@@ -1,51 +1,37 @@
-import { Component } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Layout } from "../components/Layout";
 import { MovieCard, MovieLoading } from "../components/MovieCard";
 import "../styles/App.css";
 
-export default class Homepage extends Component {
-  constructor(props) {
-    super();
-    this.state = {
-      data: [],
-      skeleton: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-      isReady: false,
-      page: 1,
-    };
-  }
+const Homepage = () => {
+  const navigate = useNavigate();
+  const [movies, setMovies] = useState([]);
+  const [skeleton] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+  const [isReady, setIsReady] = useState(false);
+  const [page, setPage] = useState(1);
 
-  async componentDidMount() {
-    this.fetchData();
-  }
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-  async fetchData() {
-    axios
+  const fetchData = async () => {
+    await axios
       .get(
-        `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=${this.state.page}`
+        `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=${page}`
       )
       .then((response) => {
-        this.setState({
-          data: response.data.results,
-          isReady: true,
-        });
+        setMovies(response.data.results);
       })
       .catch((err) => {
         console.log(err);
-      });
-    // fetch(
-    //   `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=${this.state.page}`
-    // )
-    //   .then((response) => response.json())
-    //   .then((res) => {
-    //     this.setState({ data: res.results, isReady: true });
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
-  }
+      })
+      .finally(() => setIsReady(true));
+  };
 
-  async addFavorite(item) {
+  const addFavorite = (item) => {
     let getLocal = JSON.parse(localStorage.getItem("favorites"));
     if (getLocal) {
       /*
@@ -59,24 +45,24 @@ export default class Homepage extends Component {
     } else {
       localStorage.setItem("favorites", JSON.stringify([item]));
     }
-  }
+  };
 
-  render() {
-    return (
-      <Layout>
-        <h1 className="text-slate-900 dark:text-white text-5xl text-center">
-          Now Playing
-        </h1>
-        <div className="grid grid-flow-row auto-rows-max grid-cols-2 sm:grid-cols-5 m-2">
-          {this.state.isReady
-            ? this.state.data.map((item) => {
-                return <MovieCard item={item} />;
-              })
-            : this.state.skeleton.map((item) => {
-                return <MovieLoading item={item} />;
-              })}
-        </div>
-      </Layout>
-    );
-  }
-}
+  return (
+    <Layout>
+      <h1 className="text-slate-900 dark:text-white text-5xl text-center">
+        Now Playing
+      </h1>
+      <div className="grid grid-flow-row auto-rows-max grid-cols-2 sm:grid-cols-5 m-2">
+        {isReady
+          ? movies.map((item) => {
+              return <MovieCard item={item} navigate={`/detail/${item.id}`} />;
+            })
+          : skeleton.map((item) => {
+              return <MovieLoading item={item} />;
+            })}
+      </div>
+    </Layout>
+  );
+};
+
+export default Homepage;
