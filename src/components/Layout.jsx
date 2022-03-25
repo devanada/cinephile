@@ -5,7 +5,10 @@ import "../styles/Layout.css";
 
 const Layout = (props) => {
   return (
-    <div className="layout-container bg-white dark:bg-black">
+    <div
+      className="layout-container bg-white dark:bg-black"
+      onScroll={props.onScroll}
+    >
       <Header />
       {props.children}
     </div>

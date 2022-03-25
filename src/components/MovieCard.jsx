@@ -23,7 +23,10 @@ const MovieCard = (props) => {
           {props.item.title}
         </p>
       </Link>
-      <button className="bg-neutral-500 rounded text-white">
+      <button
+        className="bg-neutral-500 rounded text-white"
+        onClick={props.onClick}
+      >
         Add to Favorite
       </button>
     </div>

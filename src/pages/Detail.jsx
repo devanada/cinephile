@@ -21,6 +21,7 @@ const Detail = () => {
       )
       .then((response) => {
         setMovie(response.data);
+        document.title = `Cinephile - ${response.data.title}`;
       })
       .catch((err) => {
         console.log(err);
