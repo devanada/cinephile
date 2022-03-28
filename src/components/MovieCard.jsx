@@ -1,32 +1,30 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const MovieCard = (props) => {
+// const MovieCard = (props) => {
+const MovieCard = ({ item, navigate, onClick }) => {
   return (
     <div
-      key={props.item.id}
+      key={item.id}
       className="container grow m-2 p-3 flex flex-col justify-between"
     >
-      <Link to={props.navigate}>
+      <Link to={navigate}>
         <img
           src={
-            props.item.poster_path
-              ? `https://image.tmdb.org/t/p/w500${props.item.poster_path}`
+            item.poster_path
+              ? `https://image.tmdb.org/t/p/w500${item.poster_path}`
               : "https://via.placeholder.com/500x750?text=No+Image"
           }
-          alt={props.item.poster_path}
+          alt={item.poster_path}
         />
         <p
           className="text-center text-slate-900 dark:text-white font-bold text-xl mb-2"
-          onClick={props.onClick}
+          onClick={onClick}
         >
-          {props.item.title}
+          {item.title}
         </p>
       </Link>
-      <button
-        className="bg-neutral-500 rounded text-white"
-        onClick={props.onClick}
-      >
+      <button className="bg-neutral-500 rounded text-white" onClick={onClick}>
         Add to Favorite
       </button>
     </div>

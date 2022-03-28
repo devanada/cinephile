@@ -9,7 +9,7 @@ const Layout = (props) => {
       className="layout-container bg-white dark:bg-black"
       onScroll={props.onScroll}
     >
-      <Header />
+      <Header onClick={() => localStorage.setItem("theme", "dark")} />
       {props.children}
     </div>
   );
