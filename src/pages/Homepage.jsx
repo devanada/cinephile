@@ -33,7 +33,7 @@ const Homepage = () => {
   };
 
   const fetchData = async (page) => {
-    dispatch(reduxAction("FETCH_START"));
+    // dispatch(reduxAction("FETCH_START"));
     const newPage = page + 1;
     await axios
       .get(
