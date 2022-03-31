@@ -1,20 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState, useRef, useContext } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useEffect, useState, useRef } from "react";
+import { useDispatch } from "react-redux";
 import axios from "axios";
 import { Layout } from "../components/Layout";
 import { MovieCard, MovieLoading } from "../components/MovieCard";
-import { reduxAction } from "../utils/redux/actions/action";
-import { useFetchGet } from "../utils/customHooks";
-import { ThemeContext } from "../utils/context";
 import "../styles/App.css";
 
 const Homepage = () => {
-  const [data] = useFetchGet("https://jsonplaceholder.typicode.com/todos/1");
-  const theme = useContext(ThemeContext);
-  const movies = useSelector((state) => state.movies);
-  const loading = useSelector((state) => state.loading);
   const [skeleton] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+  const [movies, setMovies] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [noData, setNoData] = useState(false);
   const [page, setPage] = useState(1);
   const h1Ref = useRef(null);
@@ -33,7 +28,6 @@ const Homepage = () => {
   };
 
   const fetchData = async (page) => {
-    // dispatch(reduxAction("FETCH_START"));
     const newPage = page + 1;
     await axios
       .get(
@@ -45,13 +39,13 @@ const Homepage = () => {
         const temp = [...movies];
         temp.push(...results);
         if (results.length === 0) setNoData(true);
-        dispatch(reduxAction("FETCH_MOVIES_SUCCESS", temp));
+        setMovies(temp);
         setPage(newPage);
       })
       .catch((err) => {
         console.log(err);
-        dispatch(reduxAction("FETCH_FAILURE"));
-      });
+      })
+      .finally(() => setLoading(false));
   };
 
   const addFavorite = (item) => {

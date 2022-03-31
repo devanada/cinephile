@@ -12,7 +12,7 @@ const MovieCard = ({ item, navigate, onClick }) => {
         <img
           src={
             item.poster_path
-              ? `https://image.tmdb.org/t/p/w500${item.poster_path}`
+              ? `https://image.tmdb.org/t/p/original${item.poster_path}`
               : "https://via.placeholder.com/500x750?text=No+Image"
           }
           alt={item.poster_path}
