@@ -18,3 +18,7 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
+
+.header-title {
+  font-family: "Fugaz One", cursive;
+}
