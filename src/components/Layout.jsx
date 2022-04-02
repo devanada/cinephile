@@ -1,6 +1,6 @@
-import React from "react";
-import Header from "../components/Header";
+import React, { lazy } from "react";
 import "../styles/Layout.css";
+const Header = lazy(() => import("../components/Header"));
 
 const Layout = (props) => {
   return (
@@ -14,12 +14,4 @@ const Layout = (props) => {
   );
 };
 
-const Layout2 = (props) => {
-  return (
-    <div className="w-full h-full flex justify-center items-center">
-      {props.children}
-    </div>
-  );
-};
-
-export { Layout, Layout2 };
+export default Layout;

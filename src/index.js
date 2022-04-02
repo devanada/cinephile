@@ -1,12 +1,14 @@
-import React from "react";
-import ReactDOM from "react-dom";
+import React, { lazy, Suspense } from "react";
+import { createRoot } from "react-dom/client";
 import "./styles/index.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import Routes from "./routes/Routes";
+const Routes = lazy(() => import("./routes/Routes"));
 
-ReactDOM.render(
-  <React.StrictMode>
+const container = document.getElementById("root");
+const root = createRoot(container);
+
+root.render(
+  <Suspense fallback={<p>Loading</p>}>
     <Routes />
-  </React.StrictMode>,
-  document.getElementById("root")
+  </Suspense>
 );

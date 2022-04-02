@@ -1,6 +1,7 @@
-import React from "react";
-import { Layout, Layout2 } from "../components/Layout";
+import React, { lazy } from "react";
 import "../styles/404.css";
+const Layout = lazy(() => import("../components/Layout"));
+const Layout2 = lazy(() => import("../components/Layout2"));
 
 function Error404() {
   return (

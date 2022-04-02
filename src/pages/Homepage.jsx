@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState, useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect, useState, lazy } from "react";
 import axios from "axios";
-import { Layout } from "../components/Layout";
-import { MovieCard, MovieLoading } from "../components/MovieCard";
 import "../styles/App.css";
+const Layout = lazy(() => import("../components/Layout"));
+const MovieCard = lazy(() => import("../components/MovieCard"));
+const MovieLoading = lazy(() => import("../components/MovieLoading"));
 
 const Homepage = () => {
   const [skeleton] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
@@ -12,16 +12,15 @@ const Homepage = () => {
   const [loading, setLoading] = useState(true);
   const [noData, setNoData] = useState(false);
   const [page, setPage] = useState(1);
-  const h1Ref = useRef(null);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     fetchData(page);
   }, []);
 
-  const funcTest = async (e) => {
+  const handleScrollFetch = async (e) => {
+    let element = e.target;
     const bottom =
-      e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
+      element.scrollHeight - element.scrollTop === element.clientHeight;
     if (bottom) {
       !noData && fetchData(page);
     }
@@ -48,41 +47,22 @@ const Homepage = () => {
       .finally(() => setLoading(false));
   };
 
-  const addFavorite = (item) => {
-    let getLocal = JSON.parse(localStorage.getItem("favorites"));
-    if (getLocal) {
-      /*
-      Bikin variabel find untuk mengecek apakah item yang diklik sudah ada di local storage
-      const findIsExist = (pakai function find)
-      Setelah mencari, buat satu conditional ketika findIsExist ada, maka item tidak di push, melainkan di remove, selain itu 
-      berarti di push
-      */
-      getLocal.push(item);
-      localStorage.setItem("favorites", JSON.stringify(getLocal));
-    } else {
-      localStorage.setItem("favorites", JSON.stringify([item]));
-    }
-  };
-
   return (
-    <Layout onScroll={funcTest}>
-      <h1
-        ref={h1Ref}
-        className="text-slate-900 dark:text-white text-5xl text-center"
-      >
+    <Layout onScroll={handleScrollFetch}>
+      <h1 className="text-slate-900 dark:text-white text-5xl text-center">
         Now Playing
       </h1>
-      <div className="grid grid-flow-row auto-rows-max grid-cols-2 sm:grid-cols-5 m-2">
+      <div className="grid grid-flow-row auto-rows-max grid-cols-2 md:grid-cols-4 lg:grid-cols-5 m-2">
         {loading
           ? skeleton.map((item) => {
-              return <MovieLoading item={item} />;
+              return <MovieLoading key={item} />;
             })
           : movies.map((item) => {
               return (
                 <MovieCard
+                  key={item.id}
                   item={item}
                   navigate={`/detail/${item.id}`}
-                  onClick={() => console.log(h1Ref)}
                 />
               );
             })}

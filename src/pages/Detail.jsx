@@ -1,13 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, lazy } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { Carousel } from "react-responsive-carousel";
-import { useParams } from "react-router-dom";
+import moment from "moment";
 import axios from "axios";
-import { Layout, Layout2 } from "../components/Layout";
-import Loading from "../components/Loading";
+const Loading = lazy(() => import("../components/Loading"));
+const Layout = lazy(() => import("../components/Layout"));
+const Layout2 = lazy(() => import("../components/Layout2"));
 
 const Detail = () => {
   const params = useParams();
+  const navigate = useNavigate();
   const [movie, setMovie] = useState({});
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -25,11 +28,10 @@ const Detail = () => {
       .then((response) => {
         setMovie(response.data);
         setVideos(response.data.videos.results);
-        console.log(response.data.videos.results);
         document.title = `Cinephile - ${response.data.title}`;
       })
       .catch((err) => {
-        console.log(err);
+        navigate("404");
       })
       .finally(() => setLoading(false));
   };
@@ -53,13 +55,13 @@ const Detail = () => {
             backgroundRepeat: "no-repeat",
           }}
         >
-          <div className="w-full h-screen flex justify-center items-center p-6 bg-gradient-to-t from-white dark:from-black">
+          <div className="w-full sm:h-screen flex justify-center items-center p-6 bg-gradient-to-t from-white dark:from-black">
             <div className="w-4/5 grid sm:grid-cols-2 gap-4 bg-white/40 border-2 border-zinc-800 rounded-lg p-3">
               <img
                 className="w-3/5 sm:w-4/5 place-self-center"
                 src={
                   movie.poster_path
-                    ? `https://image.tmdb.org/t/p/original${movie.poster_path}`
+                    ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
                     : "https://via.placeholder.com/500x750?text=No+Image"
                 }
                 alt={movie.poster_path}
@@ -77,7 +79,19 @@ const Detail = () => {
                   </p>
                   <p className="text-lg font-medium">
                     Release date:{" "}
-                    <span className="font-normal">{movie.release_date}</span>
+                    <span className="font-normal">
+                      {moment(movie.release_date).format("dddd, D MMMM YYYY")}
+                    </span>
+                  </p>
+                  <p className="text-lg font-medium">
+                    Genre:{" "}
+                    <span className="font-normal">
+                      {movie.genres
+                        .map((genre) => {
+                          return genre.name;
+                        })
+                        .join(", ")}
+                    </span>
                   </p>
                   <p className="text-lg font-medium">
                     Language:{" "}
@@ -110,9 +124,9 @@ const Detail = () => {
                 height="315"
                 src={`https://www.youtube.com/embed/${video.key}`}
                 title={video.name}
-                frameborder="0"
+                frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
+                allowFullScreen
               />
             ))}
         </Carousel>

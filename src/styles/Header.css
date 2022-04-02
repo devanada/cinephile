@@ -9,6 +9,7 @@
 
 .header-logo {
   height: 55px;
+  width: 80px;
   pointer-events: none;
 }
 

@@ -1,13 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, lazy } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Provider } from "react-redux";
-import Homepage from "../pages/Homepage";
-import Detail from "../pages/Detail";
-import Error404 from "../pages/404";
-
 import { ThemeContext } from "../utils/context";
 import { store } from "../utils/redux/store/store";
+
+const Homepage = lazy(() => import("../pages/Homepage"));
+const Detail = lazy(() => import("../pages/Detail"));
+const Error404 = lazy(() => import("../pages/404"));
 
 function App() {
   const [theme, setTheme] = useState(localStorage.getItem("theme"));
