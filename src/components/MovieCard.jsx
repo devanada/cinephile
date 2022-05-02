@@ -5,7 +5,7 @@ const MovieCard = ({ item, navigate, onClick }) => {
   return (
     <div
       key={item.id}
-      className="container grow m-2 p-3 flex flex-col justify-between"
+      className="container grow p-3 flex flex-col justify-between bg-zinc-800 dark:bg-neutral-500 rounded shadow-lg shadow-black"
     >
       <Link to={navigate}>
         <img
@@ -20,13 +20,13 @@ const MovieCard = ({ item, navigate, onClick }) => {
           alt={item.poster_path}
         />
         <p
-          className="text-center text-slate-900 dark:text-white font-bold text-xl mb-2"
+          className="text-center text-white font-bold text-xl mb-2"
           onClick={onClick}
         >
           {item.title}
         </p>
       </Link>
-      <button className="bg-neutral-500 rounded text-white" onClick={onClick}>
+      <button className="text-white" onClick={onClick}>
         Add to Favorite
       </button>
     </div>

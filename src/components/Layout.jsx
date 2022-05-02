@@ -7,6 +7,7 @@ const Layout = (props) => {
     <div
       className="layout-container bg-white dark:bg-black"
       onScroll={props.onScroll}
+      ref={props.setRef}
     >
       <Header onClick={() => localStorage.setItem("theme", "dark")} />
       {props.children}

@@ -56,7 +56,7 @@ const Detail = () => {
           }}
         >
           <div className="w-full sm:h-screen flex justify-center items-center p-6 bg-gradient-to-t from-white dark:from-black">
-            <div className="w-4/5 grid sm:grid-cols-2 gap-4 bg-white/40 border-2 border-zinc-800 rounded-lg p-3">
+            <div className="w-4/5 grid sm:grid-cols-2 gap-4 bg-white/40 border-2 border-zinc-800 rounded-lg p-3 shadow-lg shadow-black">
               <img
                 className="w-3/5 sm:w-4/5 place-self-center"
                 src={
@@ -126,7 +126,7 @@ const Detail = () => {
                 title={video.name}
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
+                // allowFullScreen
               />
             ))}
         </Carousel>

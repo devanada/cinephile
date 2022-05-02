@@ -3,6 +3,7 @@ import { useEffect, useState, lazy } from "react";
 import axios from "axios";
 import "../styles/App.css";
 const Layout = lazy(() => import("../components/Layout"));
+const Button = lazy(() => import("../components/Button"));
 const MovieCard = lazy(() => import("../components/MovieCard"));
 const MovieLoading = lazy(() => import("../components/MovieLoading"));
 
@@ -38,8 +39,10 @@ const Homepage = () => {
         const temp = [...movies];
         temp.push(...results);
         if (results.length === 0) setNoData(true);
-        setMovies(temp);
-        setPage(newPage);
+        else {
+          setMovies(temp);
+          setPage(newPage);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -49,10 +52,10 @@ const Homepage = () => {
 
   return (
     <Layout onScroll={handleScrollFetch}>
-      <h1 className="text-slate-900 dark:text-white text-5xl text-center">
+      <h1 className="text-slate-900 dark:text-white text-5xl text-center my-10">
         Now Playing
       </h1>
-      <div className="grid grid-flow-row auto-rows-max grid-cols-2 md:grid-cols-4 lg:grid-cols-5 m-2">
+      <div className="grid grid-flow-row auto-rows-max grid-cols-2 md:grid-cols-4 lg:grid-cols-5 m-2 gap-3">
         {loading
           ? skeleton.map((item) => {
               return <MovieLoading key={item} />;
@@ -63,10 +66,12 @@ const Homepage = () => {
                   key={item.id}
                   item={item}
                   navigate={`/detail/${item.id}`}
+                  onClick={() => alert("On Development")}
                 />
               );
             })}
       </div>
+      <Button label="Load More" onClick={() => !noData && fetchData(page)} />
     </Layout>
   );
 };

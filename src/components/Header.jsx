@@ -16,7 +16,7 @@ const Header = (props) => {
 
   return (
     <nav className="sticky top-0 w-full border-gray-200 px-2 sm:px-4 py-2.5 bg-zinc-800">
-      <div className="container flex items-center grid grid-flow-row grid-cols-3  mx-auto">
+      <div className="container items-center grid grid-flow-row grid-cols-3  mx-auto">
         <Link to="/">
           <h1 className="text-white text-2xl font-bold header-title tracking-wider">
             CINEPHILE
