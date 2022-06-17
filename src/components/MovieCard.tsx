@@ -1,7 +1,18 @@
-import React from "react";
 import { Link } from "react-router-dom";
 
-const MovieCard = ({ item, navigate, onClick }) => {
+interface movieType {
+  id: number;
+  title: string;
+  poster_path: string;
+}
+
+interface movieCartType {
+  item: movieType;
+  navigate: string;
+  onClick?: () => void;
+}
+
+const MovieCard = ({ item, navigate, onClick }: movieCartType) => {
   return (
     <div
       key={item.id}
@@ -26,7 +37,10 @@ const MovieCard = ({ item, navigate, onClick }) => {
           {item.title}
         </p>
       </Link>
-      <button className="text-white" onClick={onClick}>
+      <button
+        className="text-white text-lg bg-neutral-500 dark:bg-zinc-800 rounded-md"
+        onClick={onClick}
+      >
         Add to Favorite
       </button>
     </div>

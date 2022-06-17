@@ -1,15 +1,21 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaSun, FaMoon } from "react-icons/fa";
+import { MdFavorite } from "react-icons/md";
 import { ThemeContext } from "../utils/context";
 import logo from "../assets/logo.svg";
 import "../styles/Header.css";
 
-const Header = (props) => {
-  const navigate = useNavigate();
-  const { theme, setTheme } = useContext(ThemeContext);
+interface context {
+  theme: string | null;
+  setTheme: (theme: string) => void;
+}
 
-  const handleThemeChange = (mode) => {
+const Header = () => {
+  const navigate = useNavigate();
+  const { theme, setTheme } = useContext<context>(ThemeContext);
+
+  const handleThemeChange = (mode: string) => {
     setTheme(mode);
     localStorage.setItem("theme", mode);
   };
@@ -33,13 +39,10 @@ const Header = (props) => {
           />
         </div>
         <div className="flex justify-end items-center space-x-4">
-          {/* <p className="text-white">My Favorite Movies</p> */}
-          {/* <button
-            className="bg-neutral-500 hover:bg-neutral-600 rounded text-white font-bold p-2"
-            onClick={props.onClick}
-          >
-            Login
-          </button> */}
+          <MdFavorite
+            className="w-8 h-8 text-white"
+            onClick={() => navigate("/favorites")}
+          />
           {theme === "dark" ? (
             <FaSun
               className="w-8 h-8 text-white"

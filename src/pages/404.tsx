@@ -1,4 +1,4 @@
-import React, { lazy } from "react";
+import { lazy } from "react";
 import "../styles/404.css";
 const Layout = lazy(() => import("../components/Layout"));
 const Layout2 = lazy(() => import("../components/Layout2"));

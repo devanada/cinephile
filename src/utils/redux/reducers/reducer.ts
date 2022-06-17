@@ -5,7 +5,7 @@ const initialState = {
   loading: false,
 };
 
-export const reducer = (state = initialState, action) => {
+export const reducer = (state = initialState, action: any) => {
   switch (action.type) {
     case "FETCH_START":
       return {
@@ -35,7 +35,15 @@ export const reducer = (state = initialState, action) => {
         favorites: action.payload,
         loading: false,
       };
+    case "ADD_FAVORITES":
+      return {
+        ...state,
+        favorites: action.payload,
+        loading: false,
+      };
     default:
       return state;
   }
 };
+
+export type RootState = ReturnType<typeof reducer>;

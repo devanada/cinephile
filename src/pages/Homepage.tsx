@@ -1,25 +1,26 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState, lazy } from "react";
+import { useEffect, useState, lazy, UIEvent, FC } from "react";
 import axios from "axios";
 import "../styles/App.css";
+import { moviesType } from "../types/movies";
 const Layout = lazy(() => import("../components/Layout"));
 const Button = lazy(() => import("../components/Button"));
 const MovieCard = lazy(() => import("../components/MovieCard"));
 const MovieLoading = lazy(() => import("../components/MovieLoading"));
 
-const Homepage = () => {
-  const [skeleton] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
-  const [movies, setMovies] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [noData, setNoData] = useState(false);
-  const [page, setPage] = useState(1);
+const Homepage: FC = () => {
+  const [skeleton] = useState<number[]>([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+  const [movies, setMovies] = useState<moviesType[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [noData, setNoData] = useState<boolean>(false);
+  const [page, setPage] = useState<number>(1);
 
   useEffect(() => {
     fetchData(page);
   }, []);
 
-  const handleScrollFetch = async (e) => {
-    let element = e.target;
+  const handleScrollFetch = async (e: UIEvent<HTMLElement>) => {
+    let element = e.target as HTMLElement;
     const bottom =
       element.scrollHeight - element.scrollTop === element.clientHeight;
     if (bottom) {
@@ -27,7 +28,7 @@ const Homepage = () => {
     }
   };
 
-  const fetchData = async (page) => {
+  const fetchData = async (page: number) => {
     const newPage = page + 1;
     await axios
       .get(
@@ -36,7 +37,7 @@ const Homepage = () => {
       .then((response) => {
         const { results } = response.data;
         document.title = "Cinephile";
-        const temp = [...movies];
+        const temp: moviesType[] = [...movies];
         temp.push(...results);
         if (results.length === 0) setNoData(true);
         else {
@@ -49,6 +50,12 @@ const Homepage = () => {
       })
       .finally(() => setLoading(false));
   };
+
+  // const handleFavorite = (item: moviesType) => {
+  //   const getFav = JSON.parse(localStorage.getItem("MyFavMovie") || "[]");
+  //   getFav.push(item);
+  //   console.log(getFav);
+  // };
 
   return (
     <Layout onScroll={handleScrollFetch}>
@@ -66,7 +73,7 @@ const Homepage = () => {
                   key={item.id}
                   item={item}
                   navigate={`/detail/${item.id}`}
-                  onClick={() => alert("On Development")}
+                  // onClick={() => handleFavorite(item)}
                 />
               );
             })}

@@ -1,5 +1,3 @@
-import React from "react";
-
 const MovieLoading = () => {
   return (
     <div className="grow m-2 p-3 flex flex-col justify-between">
