@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState, lazy } from "react";
+import { useEffect, useState, lazy } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Carousel } from "react-responsive-carousel";
 import moment from "moment";
@@ -56,12 +56,12 @@ const Detail = () => {
             backgroundSize: "cover",
             backgroundRepeat: "no-repeat",
           }}
-          className="w-full h-full"
+          className="w-full"
         >
-          <div className="w-full h-full flex justify-center items-center p-6 bg-gradient-to-t from-white dark:from-black">
-            <div className="w-4/5 h-4/5 flex gap-4 bg-white/70 border-2 border-zinc-800 rounded-lg p-3 shadow-lg shadow-black">
+          <div className="w-full h-full flex flex-wrap justify-center items-center p-6 bg-gradient-to-t from-white dark:from-black">
+            <div className="w-4/5 lg:h-4/5 flex flex-wrap lg:flex-nowrap gap-4 bg-white/70 border-2 border-zinc-800 rounded-lg p-3 shadow-lg shadow-black justify-center">
               <img
-                className="w-3/5 sm:w-4/5 h-3/5 sm:h-4/5 object-contain place-self-center"
+                className="w-3/5 h-3/5 sm:h-4/5 object-contain place-self-center"
                 src={
                   movie.poster_path
                     ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`

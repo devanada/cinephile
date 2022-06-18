@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState, lazy, UIEvent, FC } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import "../styles/App.css";
@@ -9,8 +10,10 @@ const Layout = lazy(() => import("../components/Layout"));
 const MovieCard = lazy(() => import("../components/MovieCard"));
 const MovieLoading = lazy(() => import("../components/MovieLoading"));
 
-const Homepage: FC = () => {
-  const favorites = useSelector((state: RootState) => state.favorites);
+const Favorites: FC = () => {
+  const navigate = useNavigate();
+  const session_id = useSelector((state: RootState) => state.session_id || "");
+  const user_id = useSelector((state: RootState) => state.user_id || "");
   const [skeleton] = useState<number[]>([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
   const [movies, setMovies] = useState<moviesType[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -19,7 +22,7 @@ const Homepage: FC = () => {
 
   useEffect(() => {
     fetchData(page);
-  }, []);
+  }, [user_id]);
 
   const handleScrollFetch = async (e: UIEvent<HTMLElement>) => {
     let element = e.target as HTMLElement;
@@ -34,12 +37,12 @@ const Homepage: FC = () => {
     const newPage = page + 1;
     await axios
       .get(
-        `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=${page}`
+        `https://api.themoviedb.org/3/account/${user_id}/favorite/movies?api_key=${process.env.REACT_APP_API_KEY}&session_id=${session_id}&language=en-US&sort_by=created_at.asc&page=${page}`
       )
       .then((response) => {
         const { results } = response.data;
         document.title = "Cinephile - My Favorite Movies";
-        const temp: moviesType[] = [...movies];
+        const temp: moviesType[] = page === 1 ? [] : [...movies];
         temp.push(...results);
         if (results.length === 0) setNoData(true);
         else {
@@ -48,9 +51,37 @@ const Homepage: FC = () => {
         }
       })
       .catch((err) => {
-        console.log(err);
+        const { status_code } = err.response.data;
+        if (status_code === 34) {
+          navigate("/auth");
+        }
       })
       .finally(() => setLoading(false));
+  };
+
+  const handleFavorite = (item: moviesType) => {
+    if (session_id === "") {
+      navigate("/auth");
+    } else {
+      axios
+        .post(
+          `https://api.themoviedb.org/3/account/${user_id}/favorite?api_key=${process.env.REACT_APP_API_KEY}&session_id=${session_id}`,
+          {
+            media_type: "movie",
+            media_id: item.id,
+            favorite: false,
+          }
+        )
+        .then((res) => {
+          const { status_message } = res.data;
+          fetchData(1);
+          alert(status_message);
+        })
+        .catch((err) => {
+          const { status_message } = err.response.data;
+          alert(status_message);
+        });
+    }
   };
 
   return (
@@ -63,13 +94,14 @@ const Homepage: FC = () => {
           ? skeleton.map((item) => {
               return <MovieLoading key={item} />;
             })
-          : favorites.map((item: any) => {
+          : movies.map((item: moviesType) => {
               return (
                 <MovieCard
                   key={item.id}
                   item={item}
+                  button_label="Remove from Favorite"
                   navigate={`/detail/${item.id}`}
-                  onClick={() => alert("On Development")}
+                  onClick={() => handleFavorite(item)}
                 />
               );
             })}
@@ -78,4 +110,4 @@ const Homepage: FC = () => {
   );
 };
 
-export default Homepage;
+export default Favorites;

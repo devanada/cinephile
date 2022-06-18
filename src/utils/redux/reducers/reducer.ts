@@ -3,10 +3,18 @@ const initialState = {
   favorites: [],
   movie: {},
   loading: false,
+  session_id: "",
+  user_id: 0,
 };
 
 export const reducer = (state = initialState, action: any) => {
   switch (action.type) {
+    case "SET_SESSION_ID":
+      return {
+        ...state,
+        session_id: action.payload.session_id,
+        user_id: action.payload.user_id,
+      };
     case "FETCH_START":
       return {
         ...state,

@@ -1,3 +1,9 @@
 import { createContext } from "react";
+import { contextType } from "../types/context";
 
-export const ThemeContext = createContext<any>("");
+const ctx = {
+  theme: "",
+  setTheme: () => {},
+};
+
+export const ThemeContext = createContext<contextType>(ctx);

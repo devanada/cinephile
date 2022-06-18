@@ -15,7 +15,6 @@ const Layout = ({ onScroll, setRef, children }: layoutProps) => {
       onScroll={onScroll}
       ref={setRef}
     >
-      {/* <Header onClick={() => localStorage.setItem("theme", "dark")} /> */}
       <Header />
       {children}
     </div>

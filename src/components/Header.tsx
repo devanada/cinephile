@@ -1,23 +1,41 @@
-import { useContext } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaSun, FaMoon } from "react-icons/fa";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import { FaSun, FaMoon, FaUserCircle } from "react-icons/fa";
 import { MdFavorite } from "react-icons/md";
+import { useSelector, useDispatch } from "react-redux";
+
 import { ThemeContext } from "../utils/context";
+import { RootState } from "../utils/redux/reducers/reducer";
+import { reduxAction } from "../utils/redux/actions/action";
+import { contextType } from "../types/context";
 import logo from "../assets/logo.svg";
 import "../styles/Header.css";
 
-interface context {
-  theme: string | null;
-  setTheme: (theme: string) => void;
-}
-
 const Header = () => {
   const navigate = useNavigate();
-  const { theme, setTheme } = useContext<context>(ThemeContext);
+  const dispatch = useDispatch();
+  const [anchorEl, setAnchorEl] = useState<any>(null);
+  const { theme, setTheme } = useContext<contextType>(ThemeContext);
+  const session_id = useSelector((state: RootState) => state.session_id || "");
+  const open = Boolean(anchorEl);
 
   const handleThemeChange = (mode: string) => {
     setTheme(mode);
     localStorage.setItem("theme", mode);
+  };
+
+  const handleLogout = () => {
+    const temp = {
+      session_id: "",
+      user_id: 0,
+    };
+    dispatch(reduxAction("SET_SESSION_ID", temp));
+    localStorage.removeItem("session_id");
+    navigate("/homepage");
+    alert("Logout Successfully");
   };
 
   return (
@@ -39,10 +57,12 @@ const Header = () => {
           />
         </div>
         <div className="flex justify-end items-center space-x-4">
-          <MdFavorite
-            className="w-8 h-8 text-white"
-            onClick={() => navigate("/favorites")}
-          />
+          {session_id !== "" && (
+            <MdFavorite
+              className="w-8 h-8 text-white"
+              onClick={() => navigate("/favorites")}
+            />
+          )}
           {theme === "dark" ? (
             <FaSun
               className="w-8 h-8 text-white"
@@ -54,6 +74,51 @@ const Header = () => {
               onClick={() => handleThemeChange("dark")}
             />
           )}
+          <FaUserCircle
+            className="w-8 h-8 text-white"
+            onClick={(e) => setAnchorEl(e.currentTarget)}
+          />
+          <Menu
+            anchorEl={anchorEl}
+            id="account-menu"
+            open={open}
+            onClose={() => setAnchorEl(null)}
+            onClick={() => setAnchorEl(null)}
+            PaperProps={{
+              elevation: 0,
+              sx: {
+                overflow: "visible",
+                filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                mt: 1.5,
+                "& .MuiAvatar-root": {
+                  width: 32,
+                  height: 32,
+                  ml: -0.5,
+                  mr: 1,
+                },
+                "&:before": {
+                  content: '""',
+                  display: "block",
+                  position: "absolute",
+                  top: 0,
+                  right: 14,
+                  width: 10,
+                  height: 10,
+                  bgcolor: "background.paper",
+                  transform: "translateY(-50%) rotate(45deg)",
+                  zIndex: 0,
+                },
+              },
+            }}
+            transformOrigin={{ horizontal: "right", vertical: "top" }}
+            anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+          >
+            {session_id !== "" ? (
+              <MenuItem onClick={() => handleLogout()}>Logout</MenuItem>
+            ) : (
+              <MenuItem onClick={() => navigate("/auth")}>Login</MenuItem>
+            )}
+          </Menu>
         </div>
       </div>
     </nav>

@@ -1,12 +1,12 @@
 interface buttonProps {
   label: string;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 const Button = ({ label, onClick }: buttonProps) => {
   return (
     <button
-      className="bg-neutral-500 rounded text-white w-fit p-3 my-2 lg:hidden place-self-center"
+      className="text-white text-lg bg-neutral-500 dark:bg-zinc-800 rounded-md px-5"
       onClick={onClick}
     >
       {label}

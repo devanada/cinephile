@@ -1,14 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState, lazy, UIEvent, FC } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useSelector } from "react-redux";
 import "../styles/App.css";
 import { moviesType } from "../types/movies";
+import { RootState } from "../utils/redux/reducers/reducer";
 const Layout = lazy(() => import("../components/Layout"));
 const Button = lazy(() => import("../components/Button"));
 const MovieCard = lazy(() => import("../components/MovieCard"));
 const MovieLoading = lazy(() => import("../components/MovieLoading"));
 
 const Homepage: FC = () => {
+  const navigate = useNavigate();
+  const session_id = useSelector((state: RootState) => state.session_id || "");
+  const user_id = useSelector((state: RootState) => state.user_id || "");
   const [skeleton] = useState<number[]>([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
   const [movies, setMovies] = useState<moviesType[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -51,11 +57,29 @@ const Homepage: FC = () => {
       .finally(() => setLoading(false));
   };
 
-  // const handleFavorite = (item: moviesType) => {
-  //   const getFav = JSON.parse(localStorage.getItem("MyFavMovie") || "[]");
-  //   getFav.push(item);
-  //   console.log(getFav);
-  // };
+  const handleFavorite = (item: moviesType) => {
+    if (session_id === "") {
+      navigate("/auth");
+    } else {
+      axios
+        .post(
+          `https://api.themoviedb.org/3/account/${user_id}/favorite?api_key=${process.env.REACT_APP_API_KEY}&session_id=${session_id}`,
+          {
+            media_type: "movie",
+            media_id: item.id,
+            favorite: true,
+          }
+        )
+        .then((res) => {
+          const { status_message } = res.data;
+          alert(status_message);
+        })
+        .catch((err) => {
+          const { status_message } = err.response.data;
+          alert(status_message);
+        });
+    }
+  };
 
   return (
     <Layout onScroll={handleScrollFetch}>
@@ -72,8 +96,9 @@ const Homepage: FC = () => {
                 <MovieCard
                   key={item.id}
                   item={item}
+                  button_label="Add to Favorite"
                   navigate={`/detail/${item.id}`}
-                  // onClick={() => handleFavorite(item)}
+                  onClick={() => handleFavorite(item)}
                 />
               );
             })}

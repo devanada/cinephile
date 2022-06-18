@@ -9,10 +9,16 @@ interface movieType {
 interface movieCartType {
   item: movieType;
   navigate: string;
+  button_label: string;
   onClick?: () => void;
 }
 
-const MovieCard = ({ item, navigate, onClick }: movieCartType) => {
+const MovieCard = ({
+  item,
+  navigate,
+  button_label,
+  onClick,
+}: movieCartType) => {
   return (
     <div
       key={item.id}
@@ -41,7 +47,7 @@ const MovieCard = ({ item, navigate, onClick }: movieCartType) => {
         className="text-white text-lg bg-neutral-500 dark:bg-zinc-800 rounded-md"
         onClick={onClick}
       >
-        Add to Favorite
+        {button_label}
       </button>
     </div>
   );
