@@ -106,6 +106,9 @@ const Auth = () => {
             </div>
           )}
           <Button
+            id={
+              reqToken.length !== 0 ? "btn-create-session" : "btn-create-token"
+            }
             label={
               reqToken.length !== 0 ? "Create Session " : "Create Request Token"
             }

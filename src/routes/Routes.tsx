@@ -8,6 +8,7 @@ import { reduxAction } from "../utils/redux/actions/action";
 const Homepage = lazy(() => import("../pages/Homepage"));
 const Favorites = lazy(() => import("../pages/Favorites"));
 const Detail = lazy(() => import("../pages/Detail"));
+const Search = lazy(() => import("../pages/Search"));
 const Auth = lazy(() => import("../pages/Auth"));
 const Error404 = lazy(() => import("../pages/404"));
 
@@ -45,6 +46,7 @@ function App() {
           <Route path="/" element={<Navigate to="/homepage" />} />
           <Route path="/homepage" element={<Homepage />} />
           <Route path="/auth" element={<Auth />} />
+          <Route path="/search" element={<Search />} />
           <Route path="/favorites" element={<Favorites />} />
           <Route path="/detail/:movie_id" element={<Detail />} />
           <Route path="*" element={<Error404 />} />

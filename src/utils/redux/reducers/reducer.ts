@@ -5,6 +5,7 @@ const initialState = {
   loading: false,
   session_id: "",
   user_id: 0,
+  query: "",
 };
 
 export const reducer = (state = initialState, action: any) => {
@@ -48,6 +49,11 @@ export const reducer = (state = initialState, action: any) => {
         ...state,
         favorites: action.payload,
         loading: false,
+      };
+    case "SET_QUERY":
+      return {
+        ...state,
+        query: action.payload,
       };
     default:
       return state;

@@ -9,6 +9,7 @@ import { videoType } from "../types/videos";
 const Loading = lazy(() => import("../components/Loading"));
 const Layout = lazy(() => import("../components/Layout"));
 const Layout2 = lazy(() => import("../components/Layout2"));
+const Button = lazy(() => import("../components/Button"));
 
 const Detail = () => {
   const params = useParams();
@@ -30,7 +31,7 @@ const Detail = () => {
       .then((response) => {
         setMovie(response.data);
         setVideos(response.data.videos.results);
-        document.title = `Cinephile - ${response.data.title}`;
+        document.title = `${response.data.title} - Cinephile`;
       })
       .catch((err) => {
         navigate("404");
@@ -108,12 +109,11 @@ const Detail = () => {
                     <span className="font-normal">{movie.overview}</span>
                   </p>
                 </div>
-                <button
-                  className="bg-neutral-500 hover:bg-neutral-600 rounded text-white font-bold p-2 border-2 border-zinc-800"
+                <Button
+                  id="btn-watch"
+                  label="Watch Now"
                   onClick={() => window.open(movie.homepage)}
-                >
-                  Watch Now
-                </button>
+                />
               </div>
             </div>
           </div>

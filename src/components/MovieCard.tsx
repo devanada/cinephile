@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 
+import Button from "./Button";
+
 interface movieType {
   id: number;
   title: string;
@@ -24,7 +26,7 @@ const MovieCard = ({
       key={item.id}
       className="container grow p-3 flex flex-col justify-between bg-zinc-800 dark:bg-neutral-500 rounded shadow-lg shadow-black"
     >
-      <Link to={navigate}>
+      <Link id={`btn-detail-${item.id}`} to={navigate}>
         <img
           className="max-w-full h-auto"
           width="500"
@@ -43,12 +45,17 @@ const MovieCard = ({
           {item.title}
         </p>
       </Link>
-      <button
+      <Button
+        id={`btn-fav-${item.id}`}
+        label={button_label}
+        onClick={onClick}
+      />
+      {/* <button
         className="text-white text-lg bg-neutral-500 dark:bg-zinc-800 rounded-md"
         onClick={onClick}
       >
         {button_label}
-      </button>
+      </button> */}
     </div>
   );
 };
