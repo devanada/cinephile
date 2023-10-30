@@ -100,7 +100,7 @@ const Homepage: FC = () => {
         <h1 className="my-10 text-center text-5xl text-slate-900 dark:text-white">
           Now Playing
         </h1>
-        <div className="m-2 pb-6 grid grid-flow-row auto-rows-max grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+        <div className="m-2 grid grid-flow-row auto-rows-max grid-cols-2 gap-3 pb-6 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {status === "pending"
             ? [...Array(20).keys()].map((item) => <MovieLoading key={item} />)
             : data?.pages.map((page) => (

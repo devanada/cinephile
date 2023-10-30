@@ -70,7 +70,7 @@ const Detail = () => {
           className="h-full w-full bg-cover bg-center bg-no-repeat"
         >
           <div className="flex h-full w-full flex-wrap items-center justify-center bg-gradient-to-t from-white p-6 dark:from-black">
-            <div className="card w-4/5 gap-4 bg-glass p-3 shadow-lg shadow-black backdrop-blur-md lg:h-4/5 lg:card-side">
+            <div className="card w-4/5 gap-4 bg-glass p-3 shadow-lg shadow-black backdrop-blur-md lg:card-side lg:h-4/5">
               <img
                 className="h-3/5 w-2/5 place-self-center object-contain md:h-4/5 md:w-3/5"
                 src={
@@ -143,7 +143,7 @@ const Detail = () => {
               content={(data: MovieVidsType) => (
                 <iframe
                   key={data.id}
-                  className="w-full h-full"
+                  className="h-full w-full"
                   src={`https://www.youtube.com/embed/${data.key}`}
                   title={data.name}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -157,7 +157,7 @@ const Detail = () => {
           <h1 className="my-10 text-center text-5xl text-slate-900 dark:text-white">
             Similar Movie
           </h1>
-          <div className="m-2 pb-6 grid grid-flow-row auto-rows-max grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+          <div className="m-2 grid grid-flow-row auto-rows-max grid-cols-2 gap-3 pb-6 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
             {similarsLoading
               ? [...Array(20).keys()].map((item) => <MovieLoading key={item} />)
               : similars?.results.map((similar) => (

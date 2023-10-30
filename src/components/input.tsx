@@ -8,16 +8,16 @@ export default function Input(props: InputProps) {
   const { label, id, type } = props;
 
   return (
-    <div className="flex flex-col mb-4">
+    <div className="mb-4 flex flex-col">
       <label
-        className="text-black dark:text-white tracking-wider mb-3"
+        className="mb-3 tracking-wider text-black dark:text-white"
         htmlFor={id}
       >
         {label}
       </label>
       <input
         className={
-          "border rounded-lg bg-slate-200 dark:bg-neutral-600 text-black dark:text-white p-2 focus:outline-none focus:border-slate-200 focus:ring-1 focus:ring-slate-200 w-full"
+          "w-full rounded-lg border bg-slate-200 p-2 text-black focus:border-slate-200 focus:outline-none focus:ring-1 focus:ring-slate-200 dark:bg-neutral-600 dark:text-white"
         }
         type={type}
         {...props}
