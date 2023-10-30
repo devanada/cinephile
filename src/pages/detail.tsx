@@ -17,6 +17,7 @@ import {
 } from "@/utils/apis/movies";
 import { MovieType, MovieVidsType } from "@/utils/apis/movies/types";
 import { useToken } from "@/utils/contexts/token";
+import { useTitle } from "@/utils/hooks";
 
 const Detail = () => {
   const { movie_id } = useParams();
@@ -46,6 +47,8 @@ const Detail = () => {
       alert(error);
     }
   };
+
+  useTitle(`${data?.title} - Cinephile`);
 
   if (isLoading) {
     return (
